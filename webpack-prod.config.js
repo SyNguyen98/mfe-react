@@ -1,6 +1,7 @@
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
 const Dotenv = require('dotenv-webpack');
+const {mountReactComponent} = require("./src/components/ReactComponent");
 
 const deps = require("./package.json").dependencies;
 

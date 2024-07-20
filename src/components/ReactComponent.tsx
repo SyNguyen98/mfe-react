@@ -12,7 +12,7 @@ function ReactComponent() {
 export default ReactComponent;
 
 export const mountReactComponent = (container: HTMLElement) => {
-    ReactDOM.createRoot(container).render(
-        <ReactComponent />
-    );
+    const root = ReactDOM.createRoot(container)
+
+    root.render(<ReactComponent/>)
 }
