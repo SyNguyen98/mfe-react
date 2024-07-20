@@ -65,7 +65,9 @@ module.exports = (_, argv) => ({
       name: "mfe_react",
       filename: "remoteEntry.js",
       remotes: {},
-      exposes: {},
+      exposes: {
+        "./mountReactComponent": "./src/components/ReactComponent",
+      },
       shared: {
         ...deps,
         react: {

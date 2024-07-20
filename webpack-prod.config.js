@@ -6,6 +6,7 @@ const Dotenv = require('dotenv-webpack');
 const deps = require("./package.json").dependencies;
 
 const printCompilationMessage = require('./compilation.config.js');
+const {mountReactComponent} = require("./src/components/ReactComponent");
 
 module.exports = (_, argv) => ({
   output: {
@@ -43,10 +44,12 @@ module.exports = (_, argv) => ({
 
   plugins: [
     new ModuleFederationPlugin({
-      name: "mfe-react",
+      name: "mfe_react",
       filename: "remoteEntry.js",
       remotes: {},
-      exposes: {},
+      exposes: {
+        "./mountReactComponent": "./src/components/ReactComponent",
+      },
       shared: {
         ...deps,
         react: {
