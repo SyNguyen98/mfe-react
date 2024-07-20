@@ -2,7 +2,7 @@
   "name": "mfe-react",
   "version": "1.0.0",
   "scripts": {
-    "build": "webpack --mode production",
+    "build": "webpack -c webpack-prod.config.js",
     "build:dev": "webpack --mode development",
     "build:start": "cd dist && PORT=3001 npx serve",
     "start": "webpack serve --mode development",
