@@ -4,61 +4,63 @@ const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPl
 const deps = require("./package.json").dependencies;
 
 module.exports = () => ({
-  output: {
-    publicPath: "/",
-  },
+    output: {
+        publicPath: "/",
+    },
 
-  mode: "production",
+    mode: "production",
 
-  resolve: {
-    extensions: [".tsx", ".ts", ".jsx", ".js", ".json"],
-  },
+    resolve: {
+        extensions: [".tsx", ".ts", ".jsx", ".js", ".json"],
+    },
 
-  module: {
-    rules: [
-      {
-        test: /\.m?js/,
-        type: "javascript/auto",
-        resolve: {
-          fullySpecified: false,
-        },
-      },
-      {
-        test: /\.(css|s[ac]ss)$/i,
-        use: ["style-loader", "css-loader", "postcss-loader"],
-      },
-      {
-        test: /\.(ts|tsx|js|jsx)$/,
-        exclude: /node_modules/,
-        use: {
-          loader: "babel-loader",
-        },
-      },
+    module: {
+        rules: [
+            {
+                test: /\.tsx?$/,
+                exclude: /node_modules/,
+                use: "ts-loader",
+            },
+            {
+                test: /\.(css|s[ac]ss)$/i,
+                use: ["style-loader", "css-loader"],
+            },
+            {
+                test: /\.(jsx)?$/,
+                loader: "babel-loader",
+                exclude: /node_modules/,
+                options: {
+                    presets: [
+                        "@babel/preset-env",
+                        ["@babel/preset-react", {runtime: "automatic"}]
+                    ],
+                }
+            },
+        ],
+    },
+
+    plugins: [
+        new ModuleFederationPlugin({
+            name: "mfe_react",
+            filename: "remoteEntry.js",
+            remotes: {},
+            exposes: {
+                "./mountReactComponent": "./src/components/ReactComponent",
+            },
+            shared: {
+                ...deps,
+                react: {
+                    singleton: true,
+                    requiredVersion: deps.react,
+                },
+                "react-dom": {
+                    singleton: true,
+                    requiredVersion: deps["react-dom"],
+                },
+            },
+        }),
+        new HtmlWebPackPlugin({
+            template: "./src/index.html",
+        })
     ],
-  },
-
-  plugins: [
-    new ModuleFederationPlugin({
-      name: "mfe_react",
-      filename: "remoteEntry.js",
-      remotes: {},
-      exposes: {
-        "./mountReactComponent": "./src/components/ReactComponent",
-      },
-      shared: {
-        ...deps,
-        react: {
-          singleton: true,
-          requiredVersion: deps.react,
-        },
-        "react-dom": {
-          singleton: true,
-          requiredVersion: deps["react-dom"],
-        },
-      },
-    }),
-    new HtmlWebPackPlugin({
-      template: "./src/index.html",
-    })
-  ],
 });
