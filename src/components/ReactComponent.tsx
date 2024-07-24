@@ -11,8 +11,6 @@ function ReactComponent() {
 
 export default ReactComponent;
 
-export const mountReactComponent = (container: HTMLElement) => {
-    const root = ReactDOM.createRoot(container)
-
-    root.render(<ReactComponent/>)
+export const mountReactComponent = (container: HTMLDivElement) => {
+    ReactDOM.createRoot(container).render(<ReactComponent/>)
 }
