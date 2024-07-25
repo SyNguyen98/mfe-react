@@ -6,7 +6,7 @@ const deps = require("./package.json").dependencies;
 
 const printCompilationMessage = require('./compilation.config.js');
 
-module.exports = (_, argv) => ({
+module.exports = () => ({
     output: {
         publicPath: "http://localhost:3001/",
     },
@@ -38,26 +38,26 @@ module.exports = (_, argv) => ({
 
     module: {
         rules: [
-          {
-            test: /\.tsx?$/,
-            exclude: /node_modules/,
-            use: "ts-loader",
-          },
-          {
-            test: /\.(css|s[ac]ss)$/i,
-            use: ["style-loader", "css-loader"],
-          },
-          {
-            test: /\.(jsx)?$/,
-            loader: "babel-loader",
-            exclude: /node_modules/,
-            options: {
-              presets: [
-                "@babel/preset-env",
-                ["@babel/preset-react", {runtime: "automatic"}]
-              ],
-            }
-          },
+            {
+                test: /\.tsx?$/,
+                exclude: /node_modules/,
+                use: "ts-loader",
+            },
+            {
+                test: /\.(css|s[ac]ss)$/i,
+                use: ["style-loader", "css-loader"],
+            },
+            {
+                test: /\.(jsx)?$/,
+                loader: "babel-loader",
+                exclude: /node_modules/,
+                options: {
+                    presets: [
+                        "@babel/preset-env",
+                        ["@babel/preset-react", {runtime: "automatic"}]
+                    ],
+                }
+            },
         ],
     },
 
