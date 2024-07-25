@@ -44,6 +44,25 @@ module.exports = () => ({
                 use: "ts-loader",
             },
             {
+                test: /\.(png|jpe?g|gif|svg)$/i,
+                use: [
+                    {
+                        loader: 'url-loader',
+                        options: {
+                            limit: 10240,
+                            fallback: {
+                                loader: 'file-loader',
+                                options: {
+                                    name: 'img/[name].[contenthash:8].[ext]',
+                                    esModule: false,
+                                },
+                            },
+                            esModule: false,
+                        },
+                    },
+                ],
+            },
+            {
                 test: /\.(css|s[ac]ss)$/i,
                 use: ["style-loader", "css-loader"],
             },
